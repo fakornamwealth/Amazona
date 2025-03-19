@@ -1,28 +1,30 @@
-import axios from 'axios'
-import Rating from '../components/Rating';
-
+import axios from "axios";
+import Rating from "../components/Rating";
 
 const HomeScreen = {
   render: async () => {
     const response = await axios({
-        url: 'http://localhost:5001/api/products',
-        headers: {
-            'Content-Type': 'application/json',
-        }
+      url: "http://localhost:5005/api/products",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
-    if (!response || response.statusText !== 'OK') {
-        return `<div>Error in getting data</div>`; 
+    if (!response || response.statusText !== "OK") {
+      return `<div>Error in getting data</div>`;
     }
     const products = await response.data;
-   
+
     return `
         <ul class="products">
-            ${products.map(
+            ${products
+              .map(
                 (product) => `
                     <li>
                         <div class="product">
                             <a href="/#/product/${product._id}">
-                                <img src="${product.image}" alt="${product.name}" />
+                                <img src="${product.image}" alt="${
+                  product.name
+                }" />
                             </a>    
                             <div class="product-name">
                                 <a href="/#/product/1">
@@ -31,8 +33,8 @@ const HomeScreen = {
                             </div>
                             <div class="product-rating">
                                 ${Rating.render({
-                                    value: product.rating,
-                                    text: `${product.numReviews} reviews`
+                                  value: product.rating,
+                                  text: `${product.numReviews} reviews`,
                                 })}
                             </div>
                             <div class="product-brand">
@@ -43,8 +45,9 @@ const HomeScreen = {
                             </div>
                         </div>
                     </li>`
-            ).join('\n')}
+              )
+              .join("\n")}
         </ul>`;
-    },
+  },
 };
 export default HomeScreen;
